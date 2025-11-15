@@ -8,8 +8,55 @@ spec:
     image: mongo:6.0
     ports:
       - containerPort: 27017
-    
   - name: backend-container
     image: fabiohigor/unipdi-backend
     ports:
       - containerPort: 8080
+
+#arquivo 1
+#kubectl apply -f pod.yaml
+#Aqui esta subindo o back e o banco juntos em um unico pod, mas caso o pod morra, 
+#ambos morrem e não se recuperam. Para isso acontecer precisa ter um replica set 
+#ou deployment, ele que vai garantir que o pod esteja sempre rodando.
+
+
+#Passo 1
+#Então vamos executar o db-secret.yaml
+#ele vai criar um segredo com o usuario e senha do banco de dados
+#kubectl apply -f db-secret.yaml
+
+
+#Passo 2 
+# Agora vamos executar o db-configmap.yaml
+#ele vai criar um configmap com o host e nome do banco de dados
+#kubectl apply -f db-configmap.yaml
+
+#Passo 3
+#Agora vamos executar o db-deployment.yaml
+#ele vai criar um deployment com o mongoDB e um service para expor o banco de dados
+#kubectl apply -f db-deployment.yaml
+
+#Passo 4
+#Agora vamos criar o backend-deployment.yaml
+#ele vai criar um deployment e um service com o backend da aplicação
+#o service criado será usado pelo frontend para se comunicar com o backend
+#na url de comunicação do frontend com o backend
+#kubectl apply -f backend-deployment.yaml
+
+#Passo 5
+#Agora vamos criar o frontend-deployment.yaml
+#ele vai criar um deployment e um service para o frontend da aplicação
+#kubectl apply -f frontend-deployment.yaml
+
+#Então vamos criar um deployment para o backend + database e um service
+#para ser o balanceador de carga entre os pods do backend.
+
+#Passo 6
+#Criar um tunel para que o navegador veja a porta do backend
+#kubectl port-forward service/svc-frontend 5173:80
+
+
+
+# kubectl rollout history deployment backend-deployment
+#kubectl annotate deployment backend-deployment kubernetes.io/change-cause="Usando imagem local"
+#kubectl rollout undo deployment backend-deployment --to-revision=1
