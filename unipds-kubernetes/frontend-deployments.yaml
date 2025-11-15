@@ -20,6 +20,25 @@ spec:
           env:
             - name: BACKEND_URL
               value: "http://backend:8080"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 10
+            failureThreshold: 3
+            initialDelaySeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 10
+            failureThreshold: 3
+            initialDelaySeconds: 20
+          resources:
+            requests:
+              cpu: "10m"
+            
+
 ---
 apiVersion: v1
 kind: Service

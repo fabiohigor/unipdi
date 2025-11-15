@@ -60,3 +60,10 @@ spec:
 # kubectl rollout history deployment backend-deployment
 #kubectl annotate deployment backend-deployment kubernetes.io/change-cause="Usando imagem local"
 #kubectl rollout undo deployment backend-deployment --to-revision=1
+
+
+
+#Para habilitar metricas precisa instalar o metrics-server
+#kubectl apply -f components.yaml
+#Download feito a partir do repositório oficial do kubernetes
+#https://github.com/kubernetes-sigs/metrics-server/releases
